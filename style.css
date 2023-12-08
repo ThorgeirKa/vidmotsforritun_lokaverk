@@ -1,0 +1,60 @@
+html {
+    margin: -8px;
+    overflow: hidden;
+}
+button {
+    position: absolute;
+    margin: 2em;
+    font-size: large;
+    width: 8em;
+    background-position: center;
+    background-size: cover;
+    height: 8em;
+    border-radius: 10px;
+    outline: none;
+    right: 0;
+    cursor: pointer;
+    transition: 0.1s ease;
+}
+button:hover{
+    box-shadow: 0 0 3em rgba(255, 255, 255, 0.75);
+}
+#hedinn {
+    right: 9em;
+}
+#glasses2 {
+    right: 0;
+    top: 9em;
+}
+#glasses1 {
+    right: 9em;
+    top: 9em;
+}
+#no-glasses {
+    right: 0;
+    top: 18em;
+}
+
+@media only screen and (max-width: 900px) {
+    button {
+        margin: 1em;
+        width: 4em;
+        height: 4em;
+        right: 0;
+    }
+    #hedinn {
+        right: 5em;
+    }
+    #glasses2 {
+        right: 0;
+        top: 5em;
+    }
+    #glasses1 {
+        right: 5em;
+        top: 5em;
+    }
+    #no-glasses {
+        right: 0;
+        top: 10em;
+    }
+  }

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character customizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div>
+        <button id="thorgeir"></button>
+        <button id="hedinn"></button>
+        <button id="glasses1"></button>
+        <button id="glasses2"></button>
+        <button id="no-glasses"></button>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'three'
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+        const loader = new GLTFLoader();
+        let hedinn, thorgeir, glasses1, glasses2;
+
+        loader.load('models/thorgeir.glb', (gltf) => {
+            thorgeir = gltf.scene;
+            thorgeir.scale.set(3, 3, 3)
+            thorgeir.position.set(0, -.7, 0);
+
+            scene.add(thorgeir);
+        });
+        loader.load('models/hedinn.glb', (gltf) => {
+            hedinn = gltf.scene;
+            hedinn.position.set(0, -1.02, 0.04);
+            hedinn.visible = false;
+            hedinn.rotation.set(0, 1, 0); // Rotate around the x-axis by 45 degrees
+
+            scene.add(hedinn);
+
+        });
+        loader.load('models/glasses2.glb', (gltf) => {
+            glasses2 = gltf.scene;
+            glasses2.position.set(0.09, 0.06, 0.095);
+            glasses2.rotation.set(0, .6, 0); // Rotate around the x-axis by 45 degrees
+            glasses2.scale.set(0.035, 0.035, 0.035)
+            scene.add(glasses2);
+        });
+        loader.load('models/glasses1.glb', (gltf) => {
+            glasses1 = gltf.scene;
+            glasses1.position.set(0.04, 0.1, 0.03);
+            glasses1.rotation.set(.4, .6, 0); // Rotate around the x-axis by 45 degrees
+            glasses1.scale.set(0.2, 0.2, 0.2)
+            glasses1.visible = false;
+
+            scene.add(glasses1);
+
+        });
+
+        camera.position.z = 1;
+
+        const animate = function () {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        };
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(1, 1, 1).normalize();
+        scene.add(directionalLight);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true; // Add damping for smoother camera movement
+        controls.dampingFactor = 0.05; // Adjust damping factor as needed
+
+        animate();
+        // Add button functionality
+        const thorgeirButton = document.getElementById('thorgeir');
+        const hedinnButton = document.getElementById('hedinn');
+        const glasses1Button = document.getElementById('glasses1');
+        const glasses2Button = document.getElementById('glasses2');
+        const noGlassesButton = document.getElementById('no-glasses');
+
+        glasses1Button.style.backgroundImage = 'url("images/glasses1.png")';
+        glasses2Button.style.backgroundImage = 'url("images/glasses2.png")';
+        noGlassesButton.style.backgroundImage = 'url("images/no-glasses.png")';
+        thorgeirButton.style.backgroundImage = 'url("images/thorgeir.png")';
+        hedinnButton.style.backgroundImage = 'url("images/hedinn.png")';
+
+        hedinnButton.style.border = 'none';
+        hedinnButton.style.filter = 'grayscale(1)';
+        thorgeirButton.style.border = 'solid';
+        thorgeirButton.style.borderColor = 'red';
+
+        glasses1Button.style.border = 'none';
+        glasses1Button.style.filter = 'grayscale(1)';
+        glasses2Button.style.border = 'solid';
+        glasses2Button.style.borderColor = 'red';
+
+        thorgeirButton.addEventListener('click', () => {
+            if (!thorgeir.visible) {
+                thorgeir.visible = true;
+                hedinn.visible = false;
+                thorgeirButton.style.border = 'solid';
+                thorgeirButton.style.borderColor = 'red';
+                hedinnButton.style.border = 'none';
+                hedinnButton.style.filter = 'grayscale(1)';
+                thorgeirButton.style.filter = 'grayscale(0)';
+            }
+        });
+
+        hedinnButton.addEventListener('click', () => {
+            if (!hedinn.visible) {
+                hedinn.visible = true;
+                thorgeir.visible = false;
+                hedinnButton.style.border = 'solid';
+                hedinnButton.style.borderColor = 'red';
+                thorgeirButton.style.border = 'none';
+                thorgeirButton.style.filter = 'grayscale(1)';
+                hedinnButton.style.filter = 'grayscale(0)';
+            }
+        });
+
+        glasses1Button.addEventListener('click', () => {
+            if (!glasses1.visible) {
+                glasses1.visible = true;
+                glasses2.visible = false;
+                glasses1Button.style.border = 'solid';
+                glasses1Button.style.borderColor = 'red';
+                glasses1Button.style.filter = 'grayscale(0)';
+                glasses2Button.style.border = 'none';
+                glasses2Button.style.filter = 'grayscale(1)';
+                noGlassesButton.style.display = 'block';
+            }
+        });
+
+        glasses2Button.addEventListener('click', () => {
+            if (!glasses2.visible) {
+                glasses2.visible = true;
+                glasses1.visible = false;
+                glasses2Button.style.border = 'solid';
+                glasses2Button.style.borderColor = 'red';
+                glasses2Button.style.filter = 'grayscale(0)';
+                glasses1Button.style.border = 'none';
+                glasses1Button.style.filter = 'grayscale(1)';
+                noGlassesButton.style.display = 'block';
+            }
+        });
+
+        noGlassesButton.addEventListener('click', () => {
+            const areGlassesVisible = glasses1.visible || glasses2.visible;
+
+            if (areGlassesVisible) {
+                glasses1.visible = false
+                glasses2.visible = false
+                glasses1Button.style.border = 'none';
+                glasses2Button.style.border = 'none';
+                noGlassesButton.style.display = 'none';
+            } 
+        });
+
+
+    </script>
+</body>
+
+</html>
