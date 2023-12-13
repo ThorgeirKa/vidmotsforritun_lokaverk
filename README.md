@@ -10,4 +10,6 @@
 
 #### Útkoma verkefnis var frábær. Við náðum að klára þá liði sem við vildum. Næstu möguleg skref væru að hanna jafnvel betur fyrir síma og gera þetta að appi/vefsíðu.
 
+[Video af virkni](https://www.youtube.com/watch?v=HHwuD9Tdlus)
+
 #### !NOTA NPX VITE TIL AÐ KEYRA APPIÐ!
